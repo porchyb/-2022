@@ -5,13 +5,13 @@ namespace SpaceBattle.Lib
 {
     public class Vector
     {
-        public int[] vector;
+        public float[] vector;
 
-        public Vector(params int[] nums)
+        public Vector(params float[] nums)
         {
             int size = nums.Length;
             if (size == 0) throw new ArgumentException();
-            vector = new int[size];
+            vector = new float[size];
             for (int i = 0; i < size; i++)
             {
                 vector[i] = nums[i];
@@ -20,7 +20,7 @@ namespace SpaceBattle.Lib
 
         public int Size => vector.Length;
 
-        public int this[int index]
+        public float this[int index]
         {
             get
             {
@@ -38,8 +38,11 @@ namespace SpaceBattle.Lib
             if (v1.Size != v2.Size) throw new ArgumentException();
             else
             {
-                int[] arr = new int[v1.Size];
-                for (int i = 0; i < v1.Size; i++) arr[i] = v1[i] + v2[i];
+                float[] arr = new float[v1.Size];
+                for (int i = 0; i < v1.Size; i++)
+                {
+                    arr[i] = v1[i] + v2[i];
+                }
                 return new Vector(arr);
             }
         }
@@ -49,16 +52,22 @@ namespace SpaceBattle.Lib
             if (v1.Size != v2.Size) throw new ArgumentException();
             else
             {
-                int[] arr = new int[v1.Size];
-                for (int i = 0; i < v1.Size; i++) arr[i] = v1[i] - v2[i];
+                float[] arr = new float[v1.Size];
+                for (int i = 0; i < v1.Size; i++)
+                {
+                    arr[i] = v1[i] - v2[i];
+                }
                 return new Vector(arr);
             }
         }
 
-        public static Vector operator *(int alfa, Vector v1)
+        public static Vector operator *(float alfa, Vector v1)
         {
-            int[] arr = new int[v1.Size];
-            for (int i = 0; i < v1.Size; i++) arr[i] = alfa * v1[i];
+            float[] arr = new float[v1.Size];
+            for (int i = 0; i < v1.Size; i++)
+            {
+                arr[i] = alfa * v1[i];
+            }
             return new Vector(arr);
         }
 
