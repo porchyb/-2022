@@ -36,5 +36,18 @@ namespace SpaceBattle.Lib.Test
             //Assert
             Assert.Throws<ArgumentException>(() => mCommand.Execute());
         }
+        [Fact]
+        public void MoveCommand_NoVelocity_Error()
+        {
+            //Arrange
+            Mock<IMovable> MovableMock = new();
+            MovableMock.Setup(obj => obj.position).Returns(new Vector(12, 5)).Verifiable();
+
+            //Act
+            MoveCommand mCommand = new MoveCommand(MovableMock.Object);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => mCommand.Execute());
+        }
     }
 }
