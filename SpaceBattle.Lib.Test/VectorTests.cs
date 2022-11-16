@@ -8,7 +8,7 @@ namespace SpaceBattle.Lib.Test
     public class VectorTests
     {
         [Fact]
-        public void Constructor_Null_Error()
+        public void Constructor_Null_LenError()
         {
             Assert.Throws<ArgumentException>(() => new Vector());
         }
@@ -36,7 +36,7 @@ namespace SpaceBattle.Lib.Test
             Assert.Equal(v3, new Vector(4,6));
         }
         [Fact]
-        public void Add_V1andV2_Error()
+        public void Add_V1andV2_LenError()
         {
             Vector v1 = new(1, 2, 3);
             Vector v2 = new(3, 4);
@@ -72,7 +72,7 @@ namespace SpaceBattle.Lib.Test
             Assert.Equal(w, new Vector(3,6));
         }
         [Fact]
-        public void Equal_V1andV2_true()
+        public void Equality_V1andV2_true()
         {
             Vector v1 = new(1, 2);
             Vector v2 = new(1, 2);
@@ -80,7 +80,7 @@ namespace SpaceBattle.Lib.Test
             Assert.True(v1==v2);
         }
         [Fact]
-        public void Equal_V1andV2_false()
+        public void Equality_V1andV2_false()
         {
             Vector v1 = new(1, 2);
             Vector v2 = new(1, 3);
@@ -88,7 +88,7 @@ namespace SpaceBattle.Lib.Test
             Assert.False(v1 == v2);
         }
         [Fact]
-        public void Equal_V1andV2_false_size()
+        public void Equality_V1andV2_false_size()
         {
             Vector v1 = new(1, 2);
             Vector v2 = new(1, 2, 2);
@@ -96,7 +96,7 @@ namespace SpaceBattle.Lib.Test
             Assert.False(v1 == v2);
         }
         [Fact]
-        public void Inequal_V1andV2_true()
+        public void Inequality_V1andV2_true()
         {
             Vector v1 = new(1, 2);
             Vector v2 = new(1, 3);
@@ -104,7 +104,7 @@ namespace SpaceBattle.Lib.Test
             Assert.True(v1 != v2);
         }
         [Fact]
-        public void Inequal_V1andV2_false()
+        public void Inequality_V1andV2_false()
         {
             Vector v1 = new(1, 2);
             Vector v2 = new(1, 2);
@@ -126,6 +126,13 @@ namespace SpaceBattle.Lib.Test
             Vector v2 = new(1, 3);
 
             Assert.False(v1.GetHashCode() == v2.GetHashCode());
+        }
+        [Fact]
+        public void Equal_V1andV2_false()
+        {
+            Vector v = new Vector(1, 2);
+            int a = 0;
+            Assert.False(v.Equals(a));
         }
     }
 }
