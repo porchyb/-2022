@@ -9,5 +9,6 @@ namespace SpaceBattle.Lib
     public interface IObject
     {
         public Vector position { get; set; }
+        public degree direction {get; set; }
     }
 }
