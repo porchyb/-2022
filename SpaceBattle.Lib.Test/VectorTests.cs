@@ -8,10 +8,22 @@ namespace SpaceBattle.Lib.Test
     public class VectorTests
     {
         [Fact]
+        public void Constructor_Null_Error()
+        {
+            Assert.Throws<ArgumentException>(() => new Vector());
+        }
+        [Fact]
         public void Index_Index_Value()
         {
             Vector v = new(1, 2);
             Assert.Equal(v[1],2);
+        }
+        [Fact]
+        public void Index_Value_Value()
+        {
+            Vector v = new(1, 2);
+            v[1] = 3;
+            Assert.Equal(v[1], 3);
         }
         [Fact]
         public void Add_V1andV2_V3()
@@ -72,6 +84,14 @@ namespace SpaceBattle.Lib.Test
         {
             Vector v1 = new(1, 2);
             Vector v2 = new(1, 3);
+
+            Assert.False(v1 == v2);
+        }
+        [Fact]
+        public void Equal_V1andV2_false_size()
+        {
+            Vector v1 = new(1, 2);
+            Vector v2 = new(1, 2, 2);
 
             Assert.False(v1 == v2);
         }
