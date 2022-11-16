@@ -128,11 +128,18 @@ namespace SpaceBattle.Lib.Test
             Assert.False(v1.GetHashCode() == v2.GetHashCode());
         }
         [Fact]
-        public void Equal_V1andV2_false()
+        public void Equal_V1andA_false()
         {
             Vector v = new Vector(1, 2);
             int a = 0;
             Assert.False(v.Equals(a));
+        }
+        [Fact]
+        public void Equal_V1andV2_true()
+        {
+            Vector v1 = new Vector(1, 2);
+            Vector v2 = new Vector(1, 2);
+            Assert.True(v1.Equals(v2));
         }
     }
 }
