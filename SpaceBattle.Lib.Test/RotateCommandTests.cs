@@ -12,9 +12,11 @@ namespace SpaceBattle.Lib.Test
             Mock<IRotatable> RotatableMock = new();
             RotatableMock.Setup(obj => obj.direction).Returns(new degree(45)).Verifiable();            
             RotatableMock.Setup(obj => obj.angle).Returns(90).Verifiable();
+
             new RotateCommand(RotatableMock.Object).Execute();
+
             RotatableMock.VerifySet(obj=>obj.direction = new degree(135), Times.Once);
             RotatableMock.VerifyAll();
-            }
-    }    
+        }
+    }
 }
