@@ -19,6 +19,13 @@ namespace SpaceBattle.Lib.Test
             Assert.Equal(v[1],2);
         }
         [Fact]
+        public void Index_Value_Value()
+        {
+            Vector v = new(1, 2);
+            v[1] = 3;
+            Assert.Equal(v[1], 3);
+        }
+        [Fact]
         public void Add_V1andV2_V3()
         {
             Vector v1 = new(1, 2);
