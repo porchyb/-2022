@@ -8,7 +8,7 @@ namespace SpaceBattle.Lib
 {
     public interface IRotatable: IObject
     {        
-        public float angle{get; set;}
-        public void Rotate();
+        public double angle{get; set;}
+        public degree direction{get;set;}
     }
 }
