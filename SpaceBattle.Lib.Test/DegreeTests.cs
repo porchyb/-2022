@@ -8,6 +8,34 @@ namespace SpaceBattle.Lib.Test
     public class DegreeTests
     {
         [Fact]
+        public void deg_plus_float_MoreThan360()
+        {
+            degree d1 = new(10);
+            float f2 = 360;
+            Assert.Equal(d1+f2, new degree(10));
+        }
+        [Fact]
+        public void float_plus_deg_MoreThan360()
+        {
+            float f1 = 360;
+            degree d2 = new(10);
+            Assert.Equal(new degree(10), f1+d2);
+        }
+        [Fact]
+        public void deg_minus_float_MoreThan360()
+        {
+            degree d1 = new(0);
+            float f2 = -370;
+            Assert.Equal(d1-f2, new degree(-10));
+        }
+        [Fact]
+        public void float_minus_deg_MoreThan360()
+        {
+            degree d2 = new(0);
+            float f1 = -370;
+            Assert.Equal(f1-d2, new degree(-10));
+        } 
+        [Fact]
         public void Equality_DEGandDEG_true()
         {
             degree d1 = new(45);
@@ -20,6 +48,13 @@ namespace SpaceBattle.Lib.Test
             degree d1 = new(45);
             degree d2 = new(60);
             Assert.True(d1 != d2);
+        }
+        [Fact]
+        public void Inequality_DEGandDEG_false()
+        {
+            degree d1 = new(45);
+            degree d2 = new(45);
+            Assert.False(d1 != d2);
         }
         [Fact]
         public void Equals_DEGandDEG_true()
