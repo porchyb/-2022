@@ -92,6 +92,13 @@ namespace SpaceBattle.Lib.Test
             Assert.True(d1.Equals(d2));
         }
         [Fact]
+        public void Equals_DEGandDEG_false()
+        {
+            degree d1 = new(45);
+            degree d2 = new(40);
+            Assert.False(d1 == d2);
+        }
+        [Fact]
         public void Equals_DEGandINT_false()
         {
             degree d1 = new(45);
