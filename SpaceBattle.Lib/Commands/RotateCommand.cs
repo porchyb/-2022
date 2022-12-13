@@ -13,9 +13,12 @@ namespace SpaceBattle.Lib
         }
 
         public void Execute()
-        {
-            try{
-                rotObj.direction.deg = rotObj.direction.deg + rotObj.angle;
+        {            
+            if (rotObj.angle == 0){
+                throw new ArgumentException();
+            }
+            try{                
+                rotObj.direction.deg = rotObj.direction.deg + rotObj.angle;                
             }
             catch{
                 throw new ArgumentException();  
