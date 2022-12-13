@@ -4,11 +4,11 @@ namespace SpaceBattle.Lib
 {
     public class degree
     {
-        public double deg;
+        public float deg;
 
-        public degree(double angle)
-        {
-            deg = angle;
+        public degree(float angle)
+        {            
+            deg = angle % 360;
         }
         public static degree operator +(degree a, float b)
         {

@@ -18,7 +18,7 @@ namespace SpaceBattle.Lib
                 throw new ArgumentException();
             }
             try{                
-                rotObj.direction.deg = rotObj.direction.deg + rotObj.angle;                
+                rotObj.direction = new degree(rotObj.direction.deg + rotObj.angle);
             }
             catch{
                 throw new ArgumentException();  
