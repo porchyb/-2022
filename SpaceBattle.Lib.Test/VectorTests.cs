@@ -136,22 +136,6 @@ namespace SpaceBattle.Lib.Test
             Assert.False(v1 == v2);
         }
         [Fact]
-        public void Equality_NULLandV2_NullError()
-        {
-            Vector v1 = new(1, 2, 3);
-            Vector v2 = null;
-
-            Assert.Throws<ArgumentException>(() => v1 == v2);
-        }
-        [Fact]
-        public void Equality_V1andNULL_NullError()
-        {
-            Vector v1 = null;
-            Vector v2 = new(1, 2, 3);
-
-            Assert.Throws<ArgumentException>(() => v1 == v2);
-        }
-        [Fact]
         public void Inequality_V1andV2_true()
         {
             Vector v1 = new(1, 2);
