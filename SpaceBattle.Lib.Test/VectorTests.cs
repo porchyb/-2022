@@ -44,6 +44,14 @@ namespace SpaceBattle.Lib.Test
             Assert.Throws<ArgumentException>(() => v1 + v2);
         }
         [Fact]
+        public void Add_V1andNULL_NullError()
+        {
+            Vector v1 = new(1, 2, 3);
+            Vector v2 = null;
+
+            Assert.Throws<ArgumentException>(() => v1 + v2);
+        }
+        [Fact]
         public void Sub_V1andV2_V3()
         {
             Vector v1 = new(1, 2);
@@ -52,6 +60,14 @@ namespace SpaceBattle.Lib.Test
             Vector v3 = v1 - v2;
 
             Assert.Equal(v3, new Vector(-2, -2));
+        }
+        [Fact]
+        public void Sub_V1andNULL_NullError()
+        {
+            Vector v1 = new(1, 2, 3);
+            Vector v2 = null;
+
+            Assert.Throws<ArgumentException>(() => v1 - v2);
         }
         [Fact]
         public void Sub_V1andV2_Error()
@@ -70,6 +86,14 @@ namespace SpaceBattle.Lib.Test
             Vector w = a * v;
 
             Assert.Equal(w, new Vector(3,6));
+        }
+        [Fact]
+        public void Mult_FLOATandNULL_NullError()
+        {
+            Vector v = null;
+            float a = 1f;
+
+            Assert.Throws<ArgumentException>(() => a * v);
         }
         [Fact]
         public void Equality_V1andV2_true()
@@ -94,6 +118,14 @@ namespace SpaceBattle.Lib.Test
             Vector v2 = new(1, 2, 2);
 
             Assert.False(v1 == v2);
+        }
+        [Fact]
+        public void Equality_NULLandV2_NullError()
+        {
+            Vector v1 = new(1, 2, 3);
+            Vector v2 = null;
+
+            Assert.Throws<ArgumentException>(() => v1 == v2);
         }
         [Fact]
         public void Inequality_V1andV2_true()
