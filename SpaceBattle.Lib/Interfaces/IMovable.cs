@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpaceBattle.Lib
 {
-    public interface IMovable: IObject
+    public interface IMovable
     {
         public Vector velocity { get; set; }
-        public void Move();
+        public Vector position { get; set; }
     }
 }

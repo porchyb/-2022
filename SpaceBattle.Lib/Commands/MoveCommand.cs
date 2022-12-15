@@ -14,14 +14,7 @@ namespace SpaceBattle.Lib
         }
         public void Execute()
         {
-            try{
-                movObj.position = movObj.position + movObj.velocity;
-            }
-            catch
-            {
-                throw new ArgumentException();
-            }
-            
+            movObj.position = movObj.position + movObj.velocity;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace SpaceBattle.Lib
 
         public static Vector operator +(Vector v1, Vector v2)
         {
+            if(v1 is null || v2 is null) throw new ArgumentException();
             if (v1.Size != v2.Size) throw new ArgumentException();
             else
             {
@@ -49,6 +50,7 @@ namespace SpaceBattle.Lib
 
         public static Vector operator -(Vector v1, Vector v2)
         {
+            if(v1 is null || v2 is null) throw new ArgumentException();
             if (v1.Size != v2.Size) throw new ArgumentException();
             else
             {
@@ -63,6 +65,7 @@ namespace SpaceBattle.Lib
 
         public static Vector operator *(float alfa, Vector v1)
         {
+            if(v1 is null) throw new ArgumentException();
             float[] arr = new float[v1.Size];
             for (int i = 0; i < v1.Size; i++)
             {
@@ -73,6 +76,7 @@ namespace SpaceBattle.Lib
 
         public static bool operator ==(Vector v1, Vector v2)
         {
+            if(v1 is null || v2 is null) throw new ArgumentException();
             if (v1.Size != v2.Size) return false;
             for (int i = 0; i < v1.Size; i++)
             {
