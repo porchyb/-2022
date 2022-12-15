@@ -52,6 +52,14 @@ namespace SpaceBattle.Lib.Test
             Assert.Throws<ArgumentException>(() => v1 + v2);
         }
         [Fact]
+        public void Add_NULLandV2_NullError()
+        {
+            Vector v1 = null;
+            Vector v2 = new(1, 2, 3);
+
+            Assert.Throws<ArgumentException>(() => v1 + v2);
+        }
+        [Fact]
         public void Sub_V1andV2_V3()
         {
             Vector v1 = new(1, 2);
@@ -66,6 +74,14 @@ namespace SpaceBattle.Lib.Test
         {
             Vector v1 = new(1, 2, 3);
             Vector v2 = null;
+
+            Assert.Throws<ArgumentException>(() => v1 - v2);
+        }
+        [Fact]
+        public void Sub_NULLandV2_NullError()
+        {
+            Vector v1 = null;
+            Vector v2 = new(1, 2, 3);
 
             Assert.Throws<ArgumentException>(() => v1 - v2);
         }
