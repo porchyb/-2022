@@ -9,6 +9,6 @@ public class IoCAddStrategy: IStrategy{
         string key = (string)args[0];
         IStrategy strategy = (IStrategy)args[1];
         storage[key] = strategy;
-        return 0;
+        return new IoCAddCommand(storage, key, strategy);
     }
 }
