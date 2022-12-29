@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpaceBattle.Lib
 {
-    interface ICommand
+    public interface ICommand
     {
         public void Execute();
     }
