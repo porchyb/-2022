@@ -8,6 +8,9 @@ namespace SpaceBattle.Lib
 
         public degree(float angle)
         {            
+            if (angle == 0){
+                throw new ArgumentException();
+            }
             deg = angle % 360;
         }
         public static degree operator +(degree a, float b)
@@ -35,7 +38,7 @@ namespace SpaceBattle.Lib
         {
             if (Math.Abs(a.deg - b) > 360)
             {
-                a.deg = -(Math.Abs(a.deg - b) % 360);
+                a.deg = -(Math.Abs(a.deg - b));
                 return a;
             }
             a.deg = a.deg - b;
@@ -45,7 +48,7 @@ namespace SpaceBattle.Lib
         {
             if (Math.Abs(a.deg - b) > 360)
             {
-                a.deg = -(Math.Abs(a.deg - b) % 360);
+                a.deg = -(Math.Abs(a.deg - b));
                 return a;
             }
             a.deg = a.deg - b;
