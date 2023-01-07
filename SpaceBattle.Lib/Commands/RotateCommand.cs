@@ -7,6 +7,7 @@ namespace SpaceBattle.Lib
     public class RotateCommand : ICommand
     {
         public IRotatable rotObj;
+        
         public RotateCommand(IRotatable obj)
         {
             rotObj = obj;
@@ -14,12 +15,7 @@ namespace SpaceBattle.Lib
 
         public void Execute()
         {            
-            try{                
-                rotObj.direction = new degree(rotObj.direction.deg + rotObj.angle);
-            }
-            catch{
-                throw new ArgumentException();  
-            }
+            rotObj.direction = new degree(rotObj.direction.deg + rotObj.angle);            
         }
     }
 }
