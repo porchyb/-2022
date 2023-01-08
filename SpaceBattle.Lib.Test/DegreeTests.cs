@@ -38,9 +38,9 @@ namespace SpaceBattle.Lib.Test
         [Fact]
         public void deg_minus_float_MoreThan360()
         {
-            degree d1 = new(380);
-            float f2 = 10;
-            Assert.Equal(d1-f2, new degree(10));
+            degree d1 = new(10);
+            float f2 = 380;
+            Assert.Equal(d1-f2, new degree(-10));
         }
         [Fact]
         public void deg_minus_float_NoMoreThan360()
