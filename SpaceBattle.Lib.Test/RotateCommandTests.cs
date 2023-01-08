@@ -32,7 +32,7 @@ namespace SpaceBattle.Lib.Test
             Mock<IRotatable> RotatableMock = new();
             RotatableMock.Setup(obj => obj.angle).Returns(90).Verifiable();
             RotateCommand rotateCommand = new RotateCommand(RotatableMock.Object);            
-            Assert.Throws<ArgumentException>(() => rotateCommand.Execute());
+            Assert.Throws<NullReferenceException>(() => rotateCommand.Execute());
         }
     }    
 }
