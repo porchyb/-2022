@@ -56,7 +56,11 @@ namespace SpaceBattle.Lib.Test
             float f2 = 70;
             Assert.Equal(d1-f2, new degree(-60));
         }
-         
+        [Fact]
+        public void get_Exception()
+        {            
+            Assert.Throws<ArgumentException>(() => new degree(0));
+        }
         [Fact]
         public void Equality_DEGandDEG_true()
         {
