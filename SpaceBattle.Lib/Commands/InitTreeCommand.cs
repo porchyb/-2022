@@ -4,7 +4,7 @@ namespace SpaceBattle.Lib;
 
 public class InitTreeCommand: ICommand{
     public void Execute(){
-        string[][] data = ConvertCSVtoArray("../../Colision.csv", ',');
+        string[][] data = ConvertCSVtoArray("../../../Colision.csv", ',');
         double[][] input = new double[data.Length][];
         for(int i=0;i<data.Length;i++){
             input[i] = Array.ConvertAll(data[i].Take(4).ToArray(), x => Convert.ToDouble(x)); ;
