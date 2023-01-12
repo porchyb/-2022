@@ -11,7 +11,7 @@ namespace SpaceBattle.Lib.Test
         {
             Mock<IRotatable> RotatableMock = new();
             RotatableMock.Setup(obj => obj.direction).Returns(new degree(45)).Verifiable();            
-            RotatableMock.Setup(obj => obj.angle).Returns(90).Verifiable();
+            RotatableMock.Setup(obj => obj.angle).Returns(new degree(90)).Verifiable();
             new RotateCommand(RotatableMock.Object).Execute();
             RotatableMock.VerifySet(obj=>obj.direction = new degree(135), Times.Once);
             RotatableMock.VerifyAll();
@@ -23,14 +23,14 @@ namespace SpaceBattle.Lib.Test
             Mock<IRotatable> RotatableMock = new();
             RotatableMock.Setup(obj => obj.direction).Returns(new degree(45)).Verifiable();
             RotateCommand rotateCommand = new RotateCommand(RotatableMock.Object);            
-            Assert.Throws<ArgumentException>(() => rotateCommand.Execute());
+            Assert.Throws<NullReferenceException>(() => rotateCommand.Execute());
         }
 
         [Fact]
         public void noDirection_error()
         {
             Mock<IRotatable> RotatableMock = new();
-            RotatableMock.Setup(obj => obj.angle).Returns(90).Verifiable();
+            RotatableMock.Setup(obj => obj.angle).Returns(new degree (90)).Verifiable();
             RotateCommand rotateCommand = new RotateCommand(RotatableMock.Object);            
             Assert.Throws<NullReferenceException>(() => rotateCommand.Execute());
         }

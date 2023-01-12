@@ -7,7 +7,10 @@ namespace SpaceBattle.Lib
         public float deg;
 
         public degree(float angle)
-        {            
+        {
+            if (angle == 0){
+                throw new ArgumentException();
+            }
             deg = angle % 360;
         }
         public static degree operator +(degree a, float b)
@@ -29,6 +32,12 @@ namespace SpaceBattle.Lib
             }
             a.deg = a.deg + b;
             return a;
+        }
+
+        public static degree operator +(degree a, degree b)
+        {
+            float ang = (a.deg + b.deg) % 360;
+            return new degree(ang);
         }
 
         public static degree operator -(degree a, float b)
