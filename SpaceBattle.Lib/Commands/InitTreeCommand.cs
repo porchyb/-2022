@@ -1,19 +1,20 @@
-using Accord.MachineLearning.DecisionTrees;
+using Accord.MachineLearning.DecisionTrees.Learning;
+using System.Data;
 namespace SpaceBattle.Lib;
 
 public class InitTreeCommand: ICommand{
     public void Execute(){
-        DataTable data = ConvertCSVtoDataTable("../../Colision.csv");
-        string[] inputColumns = new[]{"x1","y1","x2","y2"};
-        DataTable input = new DataView(data).ToTable(false, inputColumns);
-        DataTable output = data.Columns["result"];
-        //Codification codebook = new Codification(data);
-        /*DecisionVariable[] attributes = {
-        new DecisionVariable("x1"),
-        new DecisionVariable("y1"),
-        new DecisionVariable("x2"),   
-        new DecisionVariable("y2")
-        };*/
+        string[][] data = ConvertCSVtoArray("../../Colision.csv", ',');
+        double[][] input = new double[data.Length][];
+        for(int i=0;i<data.Length;i++){
+            input[i] = Array.ConvertAll(data[i].Take(4).ToArray(), x => Convert.ToDouble(x)); ;
+        }
+        int[] output = new int[data.Length];
+        for(int i=0;i<data.Length;i++){
+            output[i] = Convert.ToInt32(data[i].Last());
+        }
+
+        
 
         C45Learning c45learning = new C45Learning();
         var tree = c45learning.Learn(input, output);
@@ -21,26 +22,18 @@ public class InitTreeCommand: ICommand{
         IoC.Resolve<ICommand>("IoC.Add", "Game.CollisionTree", getTreeStrategy).Execute();
     }
 
-    static DataTable ConvertCSVtoDataTable (string strFilePath, char sep){
+    static string[][] ConvertCSVtoArray (string strFilePath, char sep){
         DataTable dt = new DataTable();
+        List<string[]> list = new List<string[]>();
         using (StreamReader sr = new StreamReader(strFilePath))
         {
-            string[] headers = sr.ReadLine().Split(sep);
-            foreach (string header in headers)
-            {
-                dt.Columns.Add(header);
-            }
+            sr.ReadLine();
             while (!sr.EndOfStream)
             {
-                string[] rows = sr.ReadLine().Split(sep);
-                DataRow dr = dt.NewRow();
-                for (int i = 0; i < headers.Length; i++)
-                {
-                    dr[i] = rows[i];
-                }
-                dt.Rows.Add(dr);
+                string[] row = sr.ReadLine().Split(sep);
+                list.Add(row);
             }
         }
-        return dt;
+        return list.ToArray();
     }
 }
