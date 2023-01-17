@@ -4,7 +4,7 @@ namespace SpaceBattle.Lib;
 public class IoC{
     private static ConcurrentDictionary<string, IStrategy> storage;
     static IoC(){
-        storage = new Dictionary<string, IStrategy>();
+        storage = new ConcurrentDictionary<string, IStrategy>();
         storage["IoC.Add"] = new IoCAddStrategy(storage);
         storage["IoC.Resolve"] = new IoCResolveStrategy(storage);
     }
