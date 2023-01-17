@@ -8,8 +8,7 @@ namespace SpaceBattle.Lib
     {
         public Queue<ICommand> queue {get; set;}
         List<ICommand> commands;
-        object obj;
-        public MacroCommand(List<ICommand> _commands, object _obj)
+        public MacroCommand(List<ICommand> _commands)
         {
             commands = _commands;
         }
