@@ -31,4 +31,17 @@ public class MacroStrategyTests{
         macroCommand.Execute();
         Assert.Equal(IoC.Resolve<Queue<ICommand>>("Game.Queue").Count, 2);
     }
+
+    [Fact]
+    public void MacroStrategy_Name_MacroCommand(){
+        Mock<object> mockObject = new();
+        MacroStrategy macroStrategy = new();
+        MacroCommand macroCommand = (MacroCommand)macroStrategy.UseStrategy("Game.Macros.CompositeCommand", mockObject.Object);
+
+        ICommand command1 = IoC.Resolve<ICommand>("Game.Commands.Command1", mockObject.Object);
+        ICommand command2 = IoC.Resolve<ICommand>("Game.Commands.Command2", mockObject.Object);
+        List<ICommand> expectedCommandList = new List<ICommand>{command1, command2};
+
+        Assert.Equal(macroCommand.commands, expectedCommandList);
+    }
 }

@@ -6,8 +6,8 @@ namespace SpaceBattle.Lib
 {
     public class MacroCommand: ICommand
     {
-        public Queue<ICommand> queue {get; set;}
-        List<ICommand> commands;
+        private Queue<ICommand> queue {get; set;}
+        public List<ICommand> commands;
         public MacroCommand(List<ICommand> _commands)
         {
             commands = _commands;
