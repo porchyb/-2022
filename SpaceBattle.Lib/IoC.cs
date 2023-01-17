@@ -1,7 +1,8 @@
+using System.Collections.Concurrent;
 namespace SpaceBattle.Lib;
 
 public class IoC{
-    private static Dictionary<string, IStrategy> storage;
+    private static ConcurrentDictionary<string, IStrategy> storage;
     static IoC(){
         storage = new Dictionary<string, IStrategy>();
         storage["IoC.Add"] = new IoCAddStrategy(storage);
