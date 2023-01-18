@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 namespace SpaceBattle.Lib
 {
-    #nullable enable
     public class EndMoveCommand: ICommand
-    {
-        #nullable enable
-        public IMoveEndable? obj { get;}
-        public IMoveStartable? cmd_F_del { get; set; }
-        public Queue<ICommand>? queue {get; set;}
-        public EndMoveCommand (ICommand cmd){
-            BridgeCommand EndCommand = new BridgeCommand(cmd);
+    {        
+        public IMoveEndable? obje { get;}
+        //public IMoveStartable? cmd_F_del { get; set; }
+        public Queue<ICommand> queue {get; set;}
+        public EndMoveCommand (IMoveEndable obj){
+            this.obje = obj;
+            queue = IoC.Resolve<Queue<ICommand>>("Game.Queue");
         }
-        public void Execute(){
-            ICommand cmd = new MoveCommand(obj);
-            BridgeCommand EndCommand = new BridgeCommand(cmd_F_del);
+        public void Execute(){   
+            ICommand changeVelocityCommand = new ChangeVelocityCommand(obje.target, null);
+            queue.Enqueue(changeVelocityCommand);
+            BridgeCommand EndCommand = new BridgeCommand(obje.MCommand);
             EndCommand.Inject(new EmptyCommand());
         }
     }
