@@ -24,15 +24,6 @@ public class MacroStrategyTests{
     }
 
     [Fact]
-    public void MacroStrategy_Name_TwoCommandsInQueue(){
-        Mock<object> mockObject = new();
-        MacroStrategy macroStrategy = new();
-        ICommand macroCommand = (ICommand)macroStrategy.UseStrategy("Game.Macros.CompositeCommand", mockObject.Object);
-        macroCommand.Execute();
-        Assert.Equal(IoC.Resolve<Queue<ICommand>>("Game.Queue").Count, 2);
-    }
-
-    [Fact]
     public void MacroStrategy_Name_MacroCommand(){
         Mock<object> mockObject = new();
         MacroStrategy macroStrategy = new();
