@@ -1,5 +1,5 @@
 using System;
-using SpaceBattle;
+using SpaceBattle.Lib;
 using Xunit;
 using Moq;
 
