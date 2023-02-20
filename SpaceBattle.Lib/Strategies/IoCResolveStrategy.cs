@@ -1,8 +1,9 @@
+using System.Collections.Concurrent;
 namespace SpaceBattle.Lib;
 
 public class IoCResolveStrategy: IStrategy{
-    private Dictionary<string, IStrategy> storage;
-    public IoCResolveStrategy(Dictionary<string, IStrategy> _storage){
+    private ConcurrentDictionary<string, IStrategy> storage;
+    public IoCResolveStrategy(ConcurrentDictionary<string, IStrategy> _storage){
         this.storage = _storage;
     }
     public object UseStrategy(params object[] _args){
