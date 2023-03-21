@@ -11,4 +11,9 @@ public class IoC{
     public static T Resolve<T>(string key, params object[] args){
         return (T)storage["IoC.Resolve"].UseStrategy(key, args);
     }
+    public static void SetScope(Dictionary<string, IStrategy> scope){
+        scope.AsParallel().ForAll(item => {
+            IoC.Resolve<ICommand>("IoC.Add", item.Key, item.Value).Execute();
+        });
+    }
 }
