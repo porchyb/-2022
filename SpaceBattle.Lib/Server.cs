@@ -7,13 +7,15 @@ namespace SpaceBattle.Lib
         Thread? thread;
         bool stop = false;
         Action strategy;
-        public IReceiver queue;
-        public MyThread(IReceiver _receiver){
-            queue = _receiver;
+        IReceiver receiver;
+        public ISender sender;
+        public MyThread(IReceiver _receiver, ISender _sender){
+            receiver = _receiver;
+            sender = _sender;
             strategy = () => {
-                var cmd = queue.Receive();
+                var cmd = receiver.Receive();
                 try{
-                    if(queue.IsEmpty()){
+                    if(receiver.IsEmpty()){
                         cmd.Execute();
                     }
                     else{

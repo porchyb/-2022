@@ -9,7 +9,9 @@ class CreateAndStartThreadCommand : ICommand{
     }
     public void Execute(){
         try{
-            MyThread thread = new MyThread(IoC.Resolve<IReceiver>("Game.Receiver"));
+            IReceiver receiver = IoC.Resolve<IReceiver>("Game.Receiver");
+            ISender sender = IoC.Resolve<ISender>("Game.Sender");
+            MyThread thread = new MyThread(receiver, sender);
             action();
         }
         catch(Exception e){
