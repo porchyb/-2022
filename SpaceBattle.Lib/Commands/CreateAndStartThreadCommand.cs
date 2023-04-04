@@ -1,10 +1,10 @@
 namespace SpaceBattle.Lib;
 
 class CreateAndStartThreadCommand : ICommand{
-    Action action;
-    public CreateAndStartThreadCommand(int id, Action? _action = null){
-        if(!(action is null)){
-            action = _action;
+    Action action = () => {};
+    public CreateAndStartThreadCommand(int id, params object[] _action){
+        if(!(_action.Length > 0)){
+            action = (Action)_action[0];
         }
     }
     public void Execute(){
