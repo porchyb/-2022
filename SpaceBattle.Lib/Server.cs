@@ -42,5 +42,8 @@ namespace SpaceBattle.Lib
         public void Stop(){
             stop = true;
         }
+        public bool IsWork(){
+            return !stop;
+        }
     }
 }
