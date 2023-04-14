@@ -39,4 +39,21 @@ public class IoCTests{
         
         Assert.Equal(mockCommand1.Object, IoC.Resolve<ICommand>("Game.TestCommand1"));
     }
+
+    /*public void SetScopeStrategy_Nothing_UseStrategy(){
+        Mock<Dictionary<string, IStrategy>> mockScope = new Mock<Dictionary<string, IStrategy>>();
+
+        new IoCSetScopeStrategy().UseStrategy(mockScope.Object);
+        
+
+        mockStrategy1.Setup(a=>a.UseStrategy()).Returns(mockCommand1.Object);
+        var scope = new Dictionary<string, IStrategy>{
+            {"Game.TestCommand1", mockStrategy1.Object}
+        };
+
+        ICommand cmd = new IoCSetScopeCommand(scope);
+        cmd.Execute();
+        
+        Assert.Equal(mockCommand1.Object, IoC.Resolve<ICommand>("Game.TestCommand1"));
+    }*/
 }
