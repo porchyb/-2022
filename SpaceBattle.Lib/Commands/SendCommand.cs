@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 namespace SpaceBattle.Lib;
 
-class SendCommand : ICommand{
+public class SendCommand : ICommand{
     ICommand command;
     int id;
     MyThread thread;
@@ -11,7 +11,8 @@ class SendCommand : ICommand{
     }
     public void Execute(){
         try{
-            thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[id];
+            var dict = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary");
+            thread = dict[id];
             thread.sender.Send(command);
         }
         catch(Exception e){

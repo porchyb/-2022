@@ -15,7 +15,7 @@ namespace SpaceBattle.Lib
             strategy = () => {
                 var cmd = receiver.Receive();
                 try{
-                    if(receiver.IsEmpty()){
+                    if(!(receiver.IsEmpty())){
                         cmd.Execute();
                     }
                     else{

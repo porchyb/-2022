@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 
 public class ThreadHardStopCommand: ICommand{
     int id;
-    Action action;
-    public ThreadHardStopCommand(int _id, params object[] _action){
-        if(!(_action.Length > 0)){
-            action = (Action)_action[0];
+    Action action = ()=>{};
+    public ThreadHardStopCommand(int _id, Action? _action = null){
+        if(!(_action is null)){
+            action = _action;
         }
         id = _id;
     }
