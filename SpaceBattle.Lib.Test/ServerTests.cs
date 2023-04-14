@@ -32,9 +32,19 @@ public class ServerTests{
     }
 
     [Fact]
+    public void UpdateBehaviour_Action_Success(){
+        Action action = () => {Assert.True(true);};
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1, action).Execute();
+        MyThread thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
+        thread.UpdateBehaviour(action);
+    }
+
+    [Fact]
     public void CreateAndSTartThreadCommand_Action_Success(){
         Action action = () => {Assert.True(true);};
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1, action).Execute();
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
+
     }
 
     [Fact]

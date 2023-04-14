@@ -32,7 +32,7 @@ namespace SpaceBattle.Lib
                 }
             });
         }
-        internal void UpdateBehaviour(Action _newBehaviour){
+        public void UpdateBehaviour(Action _newBehaviour){
             strategy = _newBehaviour;
         }
 
