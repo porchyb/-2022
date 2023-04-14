@@ -29,6 +29,21 @@ public class ServerTests{
     }
 
     [Fact]
+    public void CreateAndSTartThreadCommand_ReceiverOrSenderNotAvailable_Error(){
+        Mock<IStrategy> receiverStrategy = new();
+        receiverStrategy.Setup(a=>a.UseStrategy()).Returns(new object());
+        Mock<IStrategy> senderStrategy = new();
+        senderStrategy.Setup(a=>a.UseStrategy()).Returns(new object());
+
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
+        Action action = () => {Assert.True(true);};
+        var cmd = IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1, action);
+
+        Assert.Throws<InvalidCastException>(()=>cmd.Execute());
+    }
+
+    [Fact]
     public void SendCommand_Cmd_Success(){
         Mock<ICommand> mockCommand = new();
         mockCommand.Setup(a=>a.Execute());
@@ -43,6 +58,24 @@ public class ServerTests{
         IoC.Resolve<ICommand>("Game.SendCommand", 2, mockCommand.Object).Execute();
 
         senderMock.Verify(a=>a.Send(It.IsAny<ICommand>()));
+    }
+
+    [Fact]
+    public void SendCommand_WrongID_Error(){
+        Mock<ICommand> mockCommand = new();
+        mockCommand.Setup(a=>a.Execute());
+
+        Mock<ISender> senderMock = new();
+        senderMock.Setup(obj=>obj.Send(It.IsAny<ICommand>()));
+        Mock<IStrategy> senderStrategy = new();
+        senderStrategy.Setup(obj=>obj.UseStrategy()).Returns(senderMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 2).Execute();
+
+        var cmd = IoC.Resolve<ICommand>("Game.SendCommand", 3, mockCommand.Object);
+        
+
+        Assert.Throws<KeyNotFoundException>(() => cmd.Execute());
     }
 
     [Fact]
