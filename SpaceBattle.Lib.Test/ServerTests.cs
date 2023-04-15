@@ -113,7 +113,7 @@ public class ServerTests{
     }
 
     [Fact]
-    public void ThreadHardStopCommand_Void_Success(){
+    public void ThreadHardStopCommand_Action_Success(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         Action action = ()=>{Assert.True(true);};
         IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1, action).Execute();
@@ -122,13 +122,13 @@ public class ServerTests{
     [Fact]
     public void ThreadHardStopCommand_NoAction_Success(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
-        new ThreadHardStopCommand(1).Execute();
+        IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1).Execute();
         var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
         Assert.False(thread.IsWork());
     }
 
     [Fact]
-    public void ThreadHardStopCommand_Void_Error(){
+    public void ThreadHardStopCommand_Action_Error(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         Action action = ()=>{Assert.True(true);};
         var cmd = IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 2, action);
@@ -137,14 +137,21 @@ public class ServerTests{
     }
 
     [Fact]
-    public void ThreadSoftStopCommand_Void_Success(){
+    public void ThreadHardStopCommand_NoAction_Error(){
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
+        var cmd = IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 2);
+        Assert.Throws<KeyNotFoundException>(() => cmd.Execute());
+    }
+
+    [Fact]
+    public void ThreadSoftStopCommand_Action_Success(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         Action action = ()=>{Assert.True(true);};
         IoC.Resolve<ICommand>("Game.SoftStopThreadCommand", 1, action).Execute();
     }
 
     [Fact]
-    public void ThreadSoftStopCommand_Void_Error(){
+    public void ThreadSoftStopCommand_Action_Error(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         Action action = ()=>{Assert.True(true);};
         var cmd = IoC.Resolve<ICommand>("Game.SoftStopThreadCommand", 2, action);
@@ -158,5 +165,13 @@ public class ServerTests{
         new ThreadHardStopCommand(1).Execute();
         var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
         Assert.False(thread.IsWork());
+    }
+
+    [Fact]
+    public void ThreadSoftStopCommand_NoAction_Error(){
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
+        var cmd = IoC.Resolve<ICommand>("Game.SoftStopThreadCommand", 2);
+
+        Assert.Throws<KeyNotFoundException>(() => cmd.Execute());
     }
 }
