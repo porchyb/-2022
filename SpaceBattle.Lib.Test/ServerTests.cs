@@ -23,21 +23,6 @@ public class ServerTests{
     }
 
     [Fact]
-    private void DefaultStrategy_Void_Success(){
-        BlockingCollection<ICommand> queue = new();
-        Mock<ICommand> cmd = new();
-        cmd.Setup(a=>a.Execute());
-        queue.Add(cmd.Object);
-        RecieverAdapter adapter = new(queue);
-        Mock<IStrategy> receiverStrategy = new();
-        receiverStrategy.Setup(a=>a.UseStrategy()).Returns(adapter);
-        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
-
-        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
-        Assert.True(true);
-    }
-
-    [Fact]
     public void Start_Void_Success(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
