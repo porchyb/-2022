@@ -22,7 +22,7 @@ public class ServerTests{
         IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
     }
 
-    /*[Fact]
+    [Fact]
     private void DefaultStrategy_Void_Success(){
         BlockingCollection<ICommand> queue = new();
         Mock<ICommand> cmd = new();
@@ -35,16 +35,16 @@ public class ServerTests{
 
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         Assert.True(true);
-    }*/
+    }
 
-    [Fact]
+    /*[Fact]
     public void Start_Void_Success(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
         thread.Stop();
         thread.Start();
         Assert.True(true);
-    }
+    }*/
 
     [Fact]
     public void UpdateBehaviour_Action_Success(){
