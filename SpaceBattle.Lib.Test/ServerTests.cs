@@ -37,14 +37,14 @@ public class ServerTests{
         Assert.True(true);
     }
 
-    /*[Fact]
+    [Fact]
     public void Start_Void_Success(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
         thread.Stop();
         thread.Start();
         Assert.True(true);
-    }*/
+    }
 
     [Fact]
     public void UpdateBehaviour_Action_Success(){
