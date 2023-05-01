@@ -34,6 +34,7 @@ public class ServerTests{
         IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
 
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
+        IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1).Execute();
         Assert.True(true);
     }
 
