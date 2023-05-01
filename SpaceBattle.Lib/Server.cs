@@ -26,7 +26,7 @@ namespace SpaceBattle.Lib
                     ExceptionHandler.Handle(e, cmd);
                 }
             };
-            Thread thread = new Thread(()=>{
+            thread = new Thread(()=>{
                 while(!stop){
                     strategy();
                 }
@@ -36,12 +36,14 @@ namespace SpaceBattle.Lib
         public void UpdateBehaviour(Action _newBehaviour){
             strategy = _newBehaviour;
         }
-
         public void Start(){
             stop = false;
         }
         public void Stop(){
             stop = true;
+        }
+        public void Kill(){
+            thread.Abort();
         }
         public bool IsWork(){
             return !stop;

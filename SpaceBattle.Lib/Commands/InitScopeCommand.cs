@@ -10,7 +10,8 @@ public class InitScopeCommand: ICommand{
             {"Game.SendCommand", new SendStrategy()},
             {"Game.HardStopThreadCommand", new HardStopStrategy()},
             {"Game.SoftStopThreadCommand", new SoftStopStrategy()},
-            {"Game.ThreadDictionary", new threadDictStrategy()}
+            {"Game.ThreadDictionary", new threadDictStrategy()},
+            {"Game.KillThreadCommand", new KillThreadStrategy()},
         };
         new IoCSetScopeCommand(scope).Execute();
     }
