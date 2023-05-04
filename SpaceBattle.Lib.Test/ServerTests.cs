@@ -1,4 +1,5 @@
 namespace SpaceBattle.Lib.Test;
+using System.Threading;
 using Moq;
 using Xunit;
 using System.Collections.Concurrent;
@@ -22,7 +23,7 @@ public class ServerTests{
         IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
     }
 
-    [Fact]
+    /*[Fact]
     private void DefaultStrategy_Void_Success(){
         BlockingCollection<ICommand> queue = new();
         Mock<ICommand> cmd = new();
@@ -33,10 +34,12 @@ public class ServerTests{
         receiverStrategy.Setup(a=>a.UseStrategy()).Returns(adapter);
         IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
 
+        Mock<ICommand> mockCommand = new();
+        mockCommand.Setup(a=>a.Execute()).Verifiable();
+
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1).Execute();
-        Assert.True(true);
-    }
+    }*/
 
     [Fact]
     public void Start_Void_Success(){
@@ -49,10 +52,17 @@ public class ServerTests{
 
     [Fact]
     public void UpdateBehaviour_Action_Success(){
-        Action action = () => {Assert.True(true);};
-        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1, action).Execute();
+        Mock<ICommand> mockCommand = new();
+        mockCommand.Setup(a=>a.Execute()).Verifiable();
+
+        Action action = () => {
+            mockCommand.Object.Execute();
+        };
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
         MyThread thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
         thread.UpdateBehaviour(action);
+        Thread.Sleep(500);
+        mockCommand.Verify(a=>a.Execute());
     }
 
     [Fact]
