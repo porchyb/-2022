@@ -43,8 +43,6 @@ namespace SpaceBattle.Lib
         public void Stop(){
             stop = true;
         }
-        public void Kill(){
-        }
         public bool IsWork(){
             return !stop;
         }

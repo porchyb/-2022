@@ -23,24 +23,6 @@ public class ServerTests{
         IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
     }
 
-    /*[Fact]
-    private void DefaultStrategy_Void_Success(){
-        BlockingCollection<ICommand> queue = new();
-        Mock<ICommand> cmd = new();
-        cmd.Setup(a=>a.Execute());
-        queue.Add(cmd.Object);
-        RecieverAdapter adapter = new(queue);
-        Mock<IStrategy> receiverStrategy = new();
-        receiverStrategy.Setup(a=>a.UseStrategy()).Returns(adapter);
-        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
-
-        Mock<ICommand> mockCommand = new();
-        mockCommand.Setup(a=>a.Execute()).Verifiable();
-
-        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
-        IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1).Execute();
-    }*/
-
     [Fact]
     public void Start_Void_Success(){
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
@@ -64,6 +46,13 @@ public class ServerTests{
         Thread.Sleep(500);
         IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1).Execute();
         mockCommand.Verify(a=>a.Execute());
+    }
+
+    [Fact]
+    public void DefaultThreadStrategy_CommandException_Handle(){
+        Mock<ICommand> mockCommand = new();
+        mockCommand.Setup(a=>a.Execute()).Throws(new Exception());
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
     }
 
     [Fact]
