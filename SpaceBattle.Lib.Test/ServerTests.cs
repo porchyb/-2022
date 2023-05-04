@@ -62,6 +62,7 @@ public class ServerTests{
         MyThread thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
         thread.UpdateBehaviour(action);
         Thread.Sleep(500);
+        IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1).Execute();
         mockCommand.Verify(a=>a.Execute());
     }
 
