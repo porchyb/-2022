@@ -31,6 +31,7 @@ namespace SpaceBattle.Lib
                     strategy();
                 }
             });
+            thread.IsBackground = true;
             thread.Start();
         }
         public void UpdateBehaviour(Action _newBehaviour){
