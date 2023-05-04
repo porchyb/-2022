@@ -52,6 +52,13 @@ public class ServerTests{
     public void DefaultThreadStrategy_CommandException_Handle(){
         Mock<ICommand> mockCommand = new();
         mockCommand.Setup(a=>a.Execute()).Throws(new Exception());
+
+        Mock<IReceiver> mockReceiver= new();
+        mockReceiver.Setup(a=>a.Receive()).Returns(mockCommand.Object);
+        Mock<IStrategy> receiverStrategy = new();
+        receiverStrategy.Setup(a=>a.UseStrategy()).Returns(mockReceiver.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
+
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
     }
 
