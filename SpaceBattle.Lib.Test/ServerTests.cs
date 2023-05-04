@@ -63,6 +63,20 @@ public class ServerTests{
     }
 
     [Fact]
+    public void DefaultThreadStrategy_EmptyReciever_Stop(){
+        Mock<IReceiver> mockReceiver= new();
+        mockReceiver.Setup(a=>a.IsEmpty()).Returns(true);
+        Mock<IStrategy> receiverStrategy = new();
+        receiverStrategy.Setup(a=>a.UseStrategy()).Returns(mockReceiver.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
+
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
+
+        MyThread thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
+        Assert.False(thread.IsWork());
+    }
+
+    [Fact]
     public void CreateAndSTartThreadCommand_Action_Success(){
         Action action = () => {Assert.True(true);};
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1, action).Execute();
