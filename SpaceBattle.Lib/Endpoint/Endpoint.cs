@@ -10,7 +10,7 @@ namespace SpaceBattle.Lib
     public class Endpoint
     {
         static WebApplication? app;
-        public static void Run()
+        public static async Task Run()
         {
             /*var builder = WebApplication.CreateBuilder();
             var app = builder.Build();
@@ -43,7 +43,7 @@ namespace SpaceBattle.Lib
                 //await response.WriteAsync("Void");
                 //return Results.Ok();
             });
-            app.Run();
+            await app.RunAsync();
         }
     }
     public record Message(string cmd, int gameId, object[] cmdParams);

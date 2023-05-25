@@ -12,7 +12,7 @@ namespace SpaceBattle.Lib.Test
 {
     public class EndpointTest
     {
-        private readonly HttpClient client = new() {BaseAddress = new Uri("http://localhost:5001") };
+        private readonly HttpClient client = new() {BaseAddress = new Uri("http://localhost:5000") };
         public EndpointTest()
         {
             Mock<ICommand> mockSendCommand = new();
@@ -26,25 +26,24 @@ namespace SpaceBattle.Lib.Test
             commandStrategy.Setup(a => a.UseStrategy(It.IsAny<object[]>())).Returns(mockTestCommand.Object);
             IoC.Resolve<ICommand>("IoC.Add", "Game.TestCommand", commandStrategy.Object).Execute();
 
-            //Endpoint.Stop();
         }
 
         [Fact]
         public async Task Endpoint_PostMessage_OK()
         {
-            var thread = new Thread(() => {
+            /*var thread = new Thread(() => {
                 Endpoint.Run();
-            });
-            thread.IsBackground = true;
-            thread.Start();
-            Thread.Sleep(500);
+            });*/
+            Endpoint.Run();
+            //throw new Exception();
+            //Thread.Sleep(500);
             //await Endpoint.Run();
-            /*var expectedStatusCode = System.Net.HttpStatusCode.OK;
+            var expectedStatusCode = System.Net.HttpStatusCode.OK;
             var message = new Message("TestCommand", 1, new[] { "par1", "par2" });
             JsonContent content = JsonContent.Create(message);
-            var response = await client.PostAsync("/message", content);*/
+            var response = await client.GetAsync("");
 
-            //Assert.Equal(expectedStatusCode, response.StatusCode);
+            Assert.Equal(expectedStatusCode, response.StatusCode);
         }
     }
 }
