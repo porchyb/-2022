@@ -12,7 +12,7 @@ namespace SpaceBattle.Lib.Test
 {
     public class EndpointTest
     {
-        private readonly HttpClient client = new() {BaseAddress = new Uri("http://localhost:5000") };
+        private readonly HttpClient client;
         public EndpointTest()
         {
             Mock<ICommand> mockSendCommand = new();
@@ -25,6 +25,11 @@ namespace SpaceBattle.Lib.Test
             Mock<IStrategy> commandStrategy = new();
             commandStrategy.Setup(a => a.UseStrategy(It.IsAny<object[]>())).Returns(mockTestCommand.Object);
             IoC.Resolve<ICommand>("IoC.Add", "Game.TestCommand", commandStrategy.Object).Execute();
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            client = new HttpClient(clientHandler);
+            client.BaseAddress = new Uri("http://localhost:5000");
 
         }
 
