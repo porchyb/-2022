@@ -41,7 +41,7 @@ namespace SpaceBattle.Lib
             {
                 //var response = context.Response;
                 //await response.WriteAsync("Void");
-                //return Results.Ok();
+                return Results.Ok();
             });
             await app.RunAsync();
         }

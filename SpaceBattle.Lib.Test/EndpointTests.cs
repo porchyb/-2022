@@ -41,7 +41,7 @@ namespace SpaceBattle.Lib.Test
             var expectedStatusCode = System.Net.HttpStatusCode.OK;
             var message = new Message("TestCommand", 1, new[] { "par1", "par2" });
             JsonContent content = JsonContent.Create(message);
-            var response = await client.GetAsync("");
+            var response = await client.PostAsync("/message", content);
 
             Assert.Equal(expectedStatusCode, response.StatusCode);
         }
