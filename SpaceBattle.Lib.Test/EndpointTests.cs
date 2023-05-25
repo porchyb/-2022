@@ -42,6 +42,7 @@ namespace SpaceBattle.Lib.Test
             var message = new Message("TestCommand", 1, new[] { "par1", "par2" });
             JsonContent content = JsonContent.Create(message);
             var response = await client.PostAsync("/message", content);
+            Endpoint.Stop();
 
             Assert.Equal(expectedStatusCode, response.StatusCode);
         }

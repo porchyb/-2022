@@ -45,6 +45,10 @@ namespace SpaceBattle.Lib
             });
             await app.RunAsync();
         }
+        public static async Task Stop()
+        {
+            app.StopAsync();
+        }
     }
     public record Message(string cmd, int gameId, object[] cmdParams);
 }
