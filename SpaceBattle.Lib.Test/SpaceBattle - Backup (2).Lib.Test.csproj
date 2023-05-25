@@ -6,10 +6,6 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
-
-    <OutputType>Library</OutputType>
-
-    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

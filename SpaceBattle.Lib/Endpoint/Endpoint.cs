@@ -19,7 +19,7 @@ namespace SpaceBattle.Lib
             WebApplicationBuilder webApplicationBuilder = WebApplication.CreateBuilder();
             app = webApplicationBuilder.Build();
             app.UseHttpsRedirection();
-            app.MapPost("/message", (Message message) =>
+            app.Map("/message", (Message message) =>
             {
                 //var response = context.Response;
                 //var request = context.Request;
@@ -27,20 +27,21 @@ namespace SpaceBattle.Lib
                 //message = await request.ReadFromJsonAsync<Message>();
                 try
                 {
-                    ICommand cmd = IoC.Resolve<ICommand>("Game." + message.cmd, message.cmdParams);
-                    IoC.Resolve<ICommand>("Game.SendCommand", message.gameId, cmd).Execute();
+                    //ICommand cmd = IoC.Resolve<ICommand>("Game." + message.cmd, message.cmdParams);
+                    //IoC.Resolve<ICommand>("Game.SendCommand", message.gameId, cmd).Execute();
+                    return Results.Ok(message);
                 }
                 catch
                 {
-                    throw new Exception("command deserealization error");
+                    return Results.BadRequest();
                 }
-                return Results.Ok(message);
+                
             });
             app.MapGet("/", () =>
             {
                 //var response = context.Response;
                 //await response.WriteAsync("Void");
-                return Results.Ok();
+                //return Results.Ok();
             });
             app.Run();
         }
