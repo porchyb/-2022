@@ -27,8 +27,8 @@ namespace SpaceBattle.Lib
                 //message = await request.ReadFromJsonAsync<Message>();
                 try
                 {
-                    //ICommand cmd = IoC.Resolve<ICommand>("Game." + message.cmd, message.cmdParams);
-                    //IoC.Resolve<ICommand>("Game.SendCommand", message.gameId, cmd).Execute();
+                    ICommand cmd = IoC.Resolve<ICommand>("Game." + message.cmd, message.cmdParams);
+                    IoC.Resolve<ICommand>("Game.SendCommand", message.gameId, cmd).Execute();
                     return Results.Ok(message);
                 }
                 catch
@@ -36,12 +36,6 @@ namespace SpaceBattle.Lib
                     return Results.BadRequest();
                 }
                 
-            });
-            app.MapGet("/", () =>
-            {
-                //var response = context.Response;
-                //await response.WriteAsync("Void");
-                return Results.Ok();
             });
             await app.RunAsync();
         }

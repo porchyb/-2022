@@ -36,15 +36,22 @@ namespace SpaceBattle.Lib.Test
         [Fact]
         public async Task Endpoint_PostMessage_OK()
         {
-            /*var thread = new Thread(() => {
-                Endpoint.Run();
-            });*/
             Endpoint.Run();
-            //throw new Exception();
-            //Thread.Sleep(500);
-            //await Endpoint.Run();
             var expectedStatusCode = System.Net.HttpStatusCode.OK;
             var message = new Message("TestCommand", 1, new[] { "par1", "par2" });
+            JsonContent content = JsonContent.Create(message);
+            var response = await client.PostAsync("/message", content);
+            Endpoint.Stop();
+
+            Assert.Equal(expectedStatusCode, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Endpoint_PostMessage_BadRequest()
+        {
+            Endpoint.Run();
+            var expectedStatusCode = System.Net.HttpStatusCode.BadRequest;
+            var message = new Message("WrongCommand", 1, new[] { "par1", "par2" });
             JsonContent content = JsonContent.Create(message);
             var response = await client.PostAsync("/message", content);
             Endpoint.Stop();
