@@ -15,8 +15,8 @@ namespace SpaceBattle.Lib.Commands
         {
             var scopes = IoC.Resolve<Dictionary<int, Dictionary<string, IStrategy>>>("IoC.GameScopes");
             var gameScope = scopes[gameId];
+            IoC.Resolve<ICommand>("IoC.SetScopeCommand", gameScope).Execute();
             int timeOnGame = IoC.Resolve<int>("Game.TimeQuantum");
-            IoC.Resolve<ICommand>("IoC.SetGameScope", gameScope).Execute();
 
             var sw = new Stopwatch();
             sw.Start();
@@ -37,7 +37,7 @@ namespace SpaceBattle.Lib.Commands
                 }
             }
             sw.Stop();
-
+            IoC.Resolve<ICommand>("IoC.DeleteScopeCommand", new List<string>(gameScope.Keys)).Execute();
         }
     }
 }
