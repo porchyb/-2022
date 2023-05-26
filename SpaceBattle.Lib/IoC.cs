@@ -16,4 +16,12 @@ public class IoC{
             IoC.Resolve<ICommand>("IoC.Add", item.Key, item.Value).Execute();
         });
     }
+    public static void DeleteScope(List<string> removed)
+    {
+        removed.ForEach(a =>
+        {
+            IStrategy? defStrategy;
+            storage.TryRemove(a, out defStrategy);
+        });
+    }
 }
