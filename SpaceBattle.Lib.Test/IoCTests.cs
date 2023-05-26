@@ -39,4 +39,20 @@ public class IoCTests{
         
         Assert.Equal(mockCommand1.Object, IoC.Resolve<ICommand>("Game.TestCommand1"));
     }
+    [Fact]
+    public void DeleteScopeWithList_Dictionary_Execute()
+    {
+        Mock<ICommand> mockCommand = new();
+        Mock<IStrategy> mockStrategy = new();
+        mockStrategy.Setup(a => a.UseStrategy()).Returns(mockCommand.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Strategy", mockStrategy.Object).Execute();
+
+        var removedKeys = new List<string>() { "Game.Strategy" };
+
+        ICommand cmd = new IoCDeleteScopeCommand(removedKeys);
+        cmd.Execute();
+
+        
+        Assert.Throws<KeyNotFoundException>(() => IoC.Resolve<ICommand>("Game.Strategy"));
+    }
 }
