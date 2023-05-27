@@ -5,9 +5,8 @@ namespace SpaceBattle.Lib.Commands
 {
     public class GameCommand : ICommand
     {
-        private Queue<ICommand> commandQueue = new();
         int gameId;
-        public GameCommand(int _gameId, int _timeOnGame = 1000)
+        public GameCommand(int _gameId)
         {
             gameId = _gameId;
         }
@@ -16,15 +15,18 @@ namespace SpaceBattle.Lib.Commands
             var scopes = IoC.Resolve<Dictionary<int, Dictionary<string, IStrategy>>>("IoC.GameScopes");
             var gameScope = scopes[gameId];
             IoC.Resolve<ICommand>("IoC.SetScopeCommand", gameScope).Execute();
+
             int timeOnGame = IoC.Resolve<int>("Game.TimeQuantum");
+            var commandQueue = IoC.Resolve<Queue<ICommand>>("Game.Queue");
 
             var sw = new Stopwatch();
             sw.Start();
+
             while (sw.Elapsed.Milliseconds < timeOnGame)
             {
                 ICommand? cmd;
                 commandQueue.TryDequeue(out cmd);
-                if(cmd != null)
+                if (cmd != null)
                 {
                     try
                     {
@@ -34,6 +36,10 @@ namespace SpaceBattle.Lib.Commands
                     {
                         ExceptionHandler.Handle(e, cmd);
                     }
+                }
+                else
+                {
+                    break;
                 }
             }
             sw.Stop();
