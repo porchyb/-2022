@@ -21,7 +21,7 @@ namespace SpaceBattle.Lib.Test
         {
             Mock<ICommand> mockCommand = new();
             var ex = new Exception();
-            Assert.Throws<Exception>(() => IoC.Resolve<IStrategy>("Handler.Handle", mockCommand.Object, ex));
+            Assert.Throws<Exception>(() => IoC.Resolve<IStrategy>("Handler.Handle", mockCommand.Object, ex).UseStrategy());
         }
     }
 }

@@ -10,14 +10,12 @@ public class ExceptionHandlerStrategy : IStrategy{
         try
         {
             var handledExceptionStrategy = strategies[commandType][exception];
-            object res = handledExceptionStrategy.UseStrategy();
-            return res;
+            return handledExceptionStrategy;
         }
         catch
         {
             var handledExceptionStrategy = IoC.Resolve<IStrategy>("Handler.Default");
-            object res = handledExceptionStrategy.UseStrategy();
-            return res;
+            return handledExceptionStrategy;
         }
     }
 }

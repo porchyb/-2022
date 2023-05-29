@@ -33,7 +33,7 @@ namespace SpaceBattle.Lib.Commands
                     }
                     catch(Exception e)
                     {
-                        IoC.Resolve<IStrategy>("Handler.Handle", cmd, e).UseStrategy(cmd);
+                        IoC.Resolve<IStrategy>("Handler.Handle", cmd, e).UseStrategy();
                     }
                 }
                 else
