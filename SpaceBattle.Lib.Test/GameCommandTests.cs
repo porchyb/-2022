@@ -9,6 +9,10 @@ namespace SpaceBattle.Lib.Test
     {
         public GameCommandTests()
         {
+            var handlerStrategies = new Dictionary<Type, Dictionary<Exception, IStrategy>>();
+            IoC.Resolve<ICommand>("IoC.Add", "Handler.Handle", new ExceptionHandlerStrategy()).Execute();
+            IoC.Resolve<ICommand>("IoC.Add", "Handler.Strategies", new GetExceptionStrategies(handlerStrategies)).Execute();
+            IoC.Resolve<ICommand>("IoC.Add", "Handler.Default", new ExceptionHandlerDefaultStrategy()).Execute();
             IoC.Resolve<ICommand>("IoC.Add", "IoC.SetScopeCommand", new SetScopeStrategy()).Execute();
             IoC.Resolve<ICommand>("IoC.Add", "IoC.DeleteScopeCommand", new DeleteScopeStrategy()).Execute();
         }
@@ -66,7 +70,7 @@ namespace SpaceBattle.Lib.Test
             mockGameScopesStrategy.Setup(a => a.UseStrategy(It.IsAny<object[]>())).Returns(gameScopes);
             IoC.Resolve<ICommand>("IoC.Add", "IoC.GameScopes", mockGameScopesStrategy.Object).Execute();
 
-            new GameCommand(1).Execute();
+            Assert.Throws<Exception>(()=>new GameCommand(1).Execute());
         }
     }
 }

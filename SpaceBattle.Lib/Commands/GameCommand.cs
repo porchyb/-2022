@@ -24,17 +24,16 @@ namespace SpaceBattle.Lib.Commands
 
             while (sw.Elapsed.Milliseconds < timeOnGame)
             {
-                ICommand? cmd;
-                commandQueue.TryDequeue(out cmd);
-                if (cmd != null)
+                if (commandQueue.Count != 0)
                 {
+                    ICommand cmd = commandQueue.Dequeue();
                     try
                     {
                         cmd.Execute();
                     }
                     catch(Exception e)
                     {
-                        ExceptionHandler.Handle(e, cmd);
+                        IoC.Resolve<object>("Handler.Handle", cmd, e);
                     }
                 }
                 else
