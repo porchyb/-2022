@@ -12,7 +12,7 @@ namespace SpaceBattle.Lib.Test
             var handlerStrategies = new Dictionary<Type, Dictionary<Exception, IStrategy>>();
             IoC.Resolve<ICommand>("IoC.Add", "Handler.Handle", new ExceptionHandlerStrategy()).Execute();
             IoC.Resolve<ICommand>("IoC.Add", "Handler.Strategies", new GetExceptionStrategies(handlerStrategies)).Execute();
-            IoC.Resolve<ICommand>("IoC.Add", "Handler.Default", new ExceptionHandlerDefaultStrategy()).Execute();
+            IoC.Resolve<ICommand>("IoC.Add", "Handler.Default", new GetExceptionHandlerDefaultStrategy()).Execute();
             IoC.Resolve<ICommand>("IoC.Add", "IoC.SetScopeCommand", new SetScopeStrategy()).Execute();
             IoC.Resolve<ICommand>("IoC.Add", "IoC.DeleteScopeCommand", new DeleteScopeStrategy()).Execute();
         }

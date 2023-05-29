@@ -13,7 +13,7 @@ namespace SpaceBattle.Lib.Test
             var handlerStrategies = new Dictionary<Type, Dictionary<Exception, IStrategy>>();
             IoC.Resolve<ICommand>("IoC.Add", "Handler.Handle", new ExceptionHandlerStrategy()).Execute();
             IoC.Resolve<ICommand>("IoC.Add", "Handler.Strategies", new GetExceptionStrategies(handlerStrategies)).Execute();
-            IoC.Resolve<ICommand>("IoC.Add", "Handler.Default", new ExceptionHandlerDefaultStrategy()).Execute();
+            IoC.Resolve<ICommand>("IoC.Add", "Handler.Default", new GetExceptionHandlerDefaultStrategy()).Execute();
         }
 
         [Fact]
@@ -21,7 +21,8 @@ namespace SpaceBattle.Lib.Test
         {
             Mock<ICommand> mockCommand = new();
             var ex = new Exception();
-            Assert.Throws<Exception>(() => IoC.Resolve<IStrategy>("Handler.Handle", mockCommand.Object, ex).UseStrategy());
+            var strategy = IoC.Resolve<IStrategy>("Handler.Handle", mockCommand.Object, ex);
+            Assert.Throws<Exception>(() => strategy.UseStrategy());
         }
     }
 }
