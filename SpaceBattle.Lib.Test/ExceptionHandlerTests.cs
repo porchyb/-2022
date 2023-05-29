@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Hwdtech;
+using Moq;
 using SpaceBattle.Lib.Commands;
 using System;
 using Xunit;
@@ -18,21 +19,9 @@ namespace SpaceBattle.Lib.Test
         [Fact]
         public void ExceptionHandler_()
         {
-
-
             Mock<ICommand> mockCommand = new();
-            mockCommand.Setup(a => a.Execute()).Throws(new Exception());
-            Exception ex;
-            try
-            {
-                mockCommand.Object.Execute();
-            }
-            catch (Exception e)
-            {
-                ex = e;
-            }
-            Assert.Throws<Exception>(() => IoC.Resolve<object>("Handler.Handle", mockCommand.Object, new Exception()));
-            //Assert.True(false);
+            var ex = new Exception();
+            Assert.Throws<Exception>(() => IoC.Resolve<IStrategy>("Handler.Handle", mockCommand.Object, ex));
         }
     }
 }
