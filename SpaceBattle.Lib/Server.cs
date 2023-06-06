@@ -13,18 +13,22 @@ namespace SpaceBattle.Lib
             receiver = _receiver;
             sender = _sender;
             strategy = () => {
-                var cmd = receiver.Receive();
-                try{
-                    if(!(receiver.IsEmpty())){
+                
+                if(!(receiver.IsEmpty())){
+                    var cmd = receiver.Receive();
+                    try
+                    {
                         cmd.Execute();
                     }
-                    else{
-                        Stop();
+                    catch (Exception e)
+                    {
+                        ExceptionHandler.Handle(e, cmd);
                     }
                 }
-                catch(Exception e){
-                    ExceptionHandler.Handle(e, cmd);
+                else{
+                    Stop();
                 }
+                
             };
             thread = new Thread(()=>{
                 while(!stop){

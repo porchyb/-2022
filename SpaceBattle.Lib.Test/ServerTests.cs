@@ -198,4 +198,67 @@ public class ServerTests{
 
         Assert.Throws<KeyNotFoundException>(() => cmd.Execute());
     }
+    [Fact]
+    public void ThreadSoftStopCommand_CommandsAfter_NotExecuted()
+    {
+        Mock<ICommand> commandMock = new();
+        commandMock.Setup(obj => obj.Execute()).Verifiable();
+        Queue<ICommand> queue = new();
+        queue.Enqueue(IoC.Resolve<ICommand>("Game.SoftStopThreadCommand", 1));
+        queue.Enqueue(commandMock.Object);
+
+        Mock<IReceiver> receiverMock = new();
+        receiverMock.Setup(obj => obj.Receive()).Returns(()=>queue.Dequeue());
+        receiverMock.Setup(obj => obj.IsEmpty()).Returns(queue.Count == 0);
+        Mock<IStrategy> receiverStrategy = new();
+        receiverStrategy.Setup(obj => obj.UseStrategy()).Returns(receiverMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
+
+        //receiverMock.Object.Receive();
+        //receiverMock.Object.Receive().Execute();
+
+        Mock<ISender> senderMock = new();
+        senderMock.Setup(obj => obj.Send(It.IsAny<ICommand>())).Callback<ICommand>(queue.Enqueue).Verifiable();
+
+        Mock<IStrategy> senderStrategy = new();
+        senderStrategy.Setup(obj => obj.UseStrategy()).Returns(senderMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
+
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
+
+        //Assert.True(queue.Count == 0);
+        commandMock.Verify(a => a.Execute());
+    }
+
+    [Fact]
+    public void ThreadHardStopCommand_CommandsAfter_NotExecuted()
+    {
+        Mock<ICommand> commandMock = new();
+        commandMock.Setup(obj => obj.Execute()).Verifiable();
+        Queue<ICommand> queue = new();
+        queue.Enqueue(IoC.Resolve<ICommand>("Game.HardStopThreadCommand", 1));
+        queue.Enqueue(commandMock.Object);
+
+        Mock<IReceiver> receiverMock = new();
+        receiverMock.Setup(obj => obj.Receive()).Returns(() => queue.Dequeue());
+        receiverMock.Setup(obj => obj.IsEmpty()).Returns(queue.Count == 0);
+        Mock<IStrategy> receiverStrategy = new();
+        receiverStrategy.Setup(obj => obj.UseStrategy()).Returns(receiverMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
+
+        //receiverMock.Object.Receive();
+        //receiverMock.Object.Receive().Execute();
+
+        Mock<ISender> senderMock = new();
+        senderMock.Setup(obj => obj.Send(It.IsAny<ICommand>())).Callback<ICommand>(queue.Enqueue).Verifiable();
+
+        Mock<IStrategy> senderStrategy = new();
+        senderStrategy.Setup(obj => obj.UseStrategy()).Returns(senderMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
+
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
+
+        //Assert.True(queue.Count == 0);
+        commandMock.Verify(a => a.Execute(), Times.Never());
+    }
 }
