@@ -29,7 +29,7 @@ public class ServerTests{
         var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
         thread.Stop();
         thread.Start();
-        Assert.True(true);
+        Assert.True(thread.IsWork());
     }
 
     [Fact]
@@ -75,6 +75,7 @@ public class ServerTests{
         IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 1).Execute();
 
         MyThread thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[1];
+        Thread.Sleep(100);  //иначе тут нельзя, извините
         Assert.False(thread.IsWork());
     }
 
@@ -200,7 +201,7 @@ public class ServerTests{
     }
 
     //проверка выполнения команды в очереди при SoftStop
-    [Fact]
+    /*[Fact]
     public void ThreadSoftStopCommand_CommandsAfter_Executed()
     {
         Mock<ICommand> commandMock = new();
@@ -257,5 +258,74 @@ public class ServerTests{
 
         //Assert.True(queue.Count == 0);
         commandMock.Verify(a => a.Execute(), Times.Never);
+    }*/
+    [Fact]
+    public void HardStopCommand_IsCommandAfterStopCommand_NotExecuted()
+    {
+        //Arrange
+        Queue<ICommand> queue = new();
+
+        Mock<IReceiver> receiverMock = new();
+        receiverMock.Setup(obj => obj.Receive()).Returns(() => queue.Dequeue());
+        receiverMock.Setup(obj => obj.IsEmpty()).Returns(() => (queue.Count == 0));
+        Mock<IStrategy> receiverStrategy = new();
+        receiverStrategy.Setup(obj => obj.UseStrategy()).Returns(receiverMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
+
+
+        Mock<ISender> senderMock = new();
+        senderMock.Setup(obj => obj.Send(It.IsAny<ICommand>())).Callback<ICommand>(queue.Enqueue);
+        Mock<IStrategy> senderStrategy = new();
+        senderStrategy.Setup(obj => obj.UseStrategy()).Returns(senderMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
+
+        //Act
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 2).Execute();
+        var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[2];
+        thread.Stop();
+        var stopCmd = new ThreadHardStopCommand(2);
+        Mock<ICommand> commandMock = new();
+        commandMock.Setup(obj => obj.Execute()).Verifiable();
+        IoC.Resolve<ICommand>("Game.SendCommand", 2, stopCmd).Execute();
+        IoC.Resolve<ICommand>("Game.SendCommand", 2, commandMock.Object).Execute();
+        thread.Start();
+
+        //Assert
+        commandMock.Verify(a => a.Execute(), Times.Never);
+
+    }
+    [Fact]
+    public void SoftStopCommand_IsCommandAfterStopCommand_Executed()
+    {
+        //Arrange
+        Queue<ICommand> queue = new();
+
+        Mock<IReceiver> receiverMock = new();
+        receiverMock.Setup(obj => obj.Receive()).Returns(() => queue.Dequeue());
+        receiverMock.Setup(obj => obj.IsEmpty()).Returns(() => (queue.Count == 0));
+        Mock<IStrategy> receiverStrategy = new();
+        receiverStrategy.Setup(obj => obj.UseStrategy()).Returns(receiverMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Receiver", receiverStrategy.Object).Execute();
+
+
+        Mock<ISender> senderMock = new();
+        senderMock.Setup(obj => obj.Send(It.IsAny<ICommand>())).Callback<ICommand>(queue.Enqueue);
+        Mock<IStrategy> senderStrategy = new();
+        senderStrategy.Setup(obj => obj.UseStrategy()).Returns(senderMock.Object);
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Sender", senderStrategy.Object).Execute();
+
+        //Act
+        IoC.Resolve<ICommand>("Game.CreateAndStartThreadCommand", 2).Execute();
+        var thread = IoC.Resolve<ConcurrentDictionary<int, MyThread>>("Game.ThreadDictionary")[2];
+        thread.Stop();
+        var stopCmd = new ThreadSoftStopCommand(2);
+        Mock<ICommand> commandMock = new();
+        commandMock.Setup(obj => obj.Execute()).Verifiable();
+        IoC.Resolve<ICommand>("Game.SendCommand", 2, stopCmd).Execute();
+        IoC.Resolve<ICommand>("Game.SendCommand", 2, commandMock.Object).Execute();
+        thread.Start();
+
+        //Assert
+        commandMock.Verify(a => a.Execute());
     }
 }

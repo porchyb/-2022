@@ -43,6 +43,14 @@ namespace SpaceBattle.Lib
         }
         public void Start(){
             stop = false;
+            thread = new Thread(() => {
+                while (!stop)
+                {
+                    strategy();
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
         }
         public void Stop(){
             stop = true;
