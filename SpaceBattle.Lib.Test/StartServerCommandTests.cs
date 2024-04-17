@@ -12,8 +12,9 @@ namespace SpaceBattle.Lib.Test
         public StartServerCommandTests()
         {
             new Hwdtech.Ioc.InitScopeBasedIoCImplementationCommand().Execute();
-            var scope = IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"));
-            IoC.Resolve<ICommand>("Scopes.Current.Set", scope).Execute();
+            IoC.Resolve<ICommand>("Scopes.Current.Set",
+            IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
+        ).Execute();
         }
 
     
