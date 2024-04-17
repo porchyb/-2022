@@ -1,11 +1,12 @@
 {
-    "profiles": {
-        "SpaceBattle.Lib": {
-            "commandName": "Project",
-            "dotnetRunMessages": true,
-            "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            }
-        }
+  "profiles": {
+    "SpaceBattle.Lib": {
+      "commandName": "Project",
+      "commandLineArgs": "3",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true
     }
+  }
 }
