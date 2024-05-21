@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Hwdtech;
+using Hwdtech.Ioc;
 
 namespace SpaceBattle.Lib.Test
 {
@@ -12,12 +13,12 @@ namespace SpaceBattle.Lib.Test
         [Fact]
         public void SuccessExceptionHandlerWriteLogTests()
         {
-            SpaceBattle.ICommand command = Mock.Of<SpaceBattle.ICommand>();
+            Hwdtech.ICommand command = Mock.Of<Hwdtech.ICommand>();
             Exception exception = new Exception("Test exception");
             string logFileName = "error.log";
             string errorMessage = $"Error in command '{command.GetType().Name}': {exception.Message}";
 
-            var strategy = new ExceptionHandlerStrategy();
+            var strategy = new ExceptionHandlerWriteLogStrategy();
 
             strategy.UseStrategy(command, exception);
 

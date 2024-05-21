@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 namespace SpaceBattle.Lib
 {
     // Server.StartServer
-    public class StartServerCommand : ICommand  
+    public class StartServerCommand : Hwdtech.ICommand
     {
         private readonly int numberOfThreads;
 
@@ -15,7 +15,7 @@ namespace SpaceBattle.Lib
         {
             for (int i = 0; i < this.numberOfThreads; i++)
             {
-                IoC.Resolve<ICommand>("Server.Thread.CreateAndStartThread", i).Execute();
+                Hwdtech.IoC.Resolve<Hwdtech.ICommand>("Server.Thread.CreateAndStartThread", i).Execute();
             }
         }
     }

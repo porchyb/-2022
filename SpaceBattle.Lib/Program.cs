@@ -12,7 +12,7 @@ public class Program
         Console.WriteLine("Threads are now running");
         Console.ReadKey();
         Console.WriteLine("Threads are now stopping");
-        IoC.Resolve<ICommand>("Server.StopServer").Execute();
+        IoC.Resolve<ICommand>("Server.StopServer").Execute();        
         Console.WriteLine("Now server stoped");
     }
 }

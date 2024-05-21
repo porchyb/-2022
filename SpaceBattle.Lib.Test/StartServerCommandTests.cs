@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using Hwdtech.Ioc;
 using Hwdtech;
 
 namespace SpaceBattle.Lib.Test
@@ -12,8 +13,8 @@ namespace SpaceBattle.Lib.Test
         public StartServerCommandTests()
         {
             new Hwdtech.Ioc.InitScopeBasedIoCImplementationCommand().Execute();
-            IoC.Resolve<ICommand>("Scopes.Current.Set",
-            IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
+            Hwdtech.IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set",
+            Hwdtech.IoC.Resolve<object>("Scopes.New", Hwdtech.IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
         }
 
@@ -22,15 +23,15 @@ namespace SpaceBattle.Lib.Test
     public void SuccessfulStartingServer()
     {
         var numberOfThreads = 5;
-        var mockCommand = new Mock<ICommand>();
+        var mockCommand = new Mock<Hwdtech.ICommand>(); // 1
         mockCommand.Setup(c => c.Execute()).Verifiable();
 
-        IoC.Resolve<ICommand>("IoC.Register", "Server.Thread.CreateAndStartThread", (object[] args) => mockCommand.Object).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Server.StartServer", (object[] args) => new StartServerCommand((int)args[0])).Execute();
+        Hwdtech.IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Server.Thread.CreateAndStartThread", (object[] args) => mockCommand.Object).Execute();
+        Hwdtech.IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Server.StartServer", (object[] args) => new StartServerCommand((int)args[0])).Execute(); //2
 
         mockCommand.Verify(c => c.Execute(), Times.Never());
 
-        IoC.Resolve<ICommand>("Server.Start", numberOfThreads).Execute();
+        Hwdtech.IoC.Resolve<Hwdtech.ICommand>("Server.StartServer", numberOfThreads).Execute(); // 3
 
         mockCommand.Verify(c => c.Execute(), Times.Exactly(numberOfThreads));
     }
