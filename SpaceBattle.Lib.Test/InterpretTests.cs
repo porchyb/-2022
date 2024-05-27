@@ -6,12 +6,12 @@ using System.IO;
 using System.Collections.Generic;
 using Xunit;
 
-public class TestInterpretCommand
+public class InterpretTests
 {
     Dictionary<int, Queue<ICommand>> gameQueueMap = new Dictionary<int, Queue<ICommand>>();
     Dictionary<int, IUObject> gameUObjectMap = new Dictionary<int, IUObject>();
 
-    public TestInterpretCommand()
+    public InterpretTests()
     {
         new Hwdtech.Ioc.InitScopeBasedIoCImplementationCommand().Execute();
 
