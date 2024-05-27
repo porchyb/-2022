@@ -1,4 +1,5 @@
 namespace SpaceBattle.Lib;
+using Hwdtech;
 
 public class GetGameUObjectStrategy : IStrategy { 
     public object UseStrategy(params object[] args)
@@ -7,7 +8,7 @@ public class GetGameUObjectStrategy : IStrategy {
 
         IUObject? uObject;
 
-        if (IoC.Resolve<IDictionary<int, IUObject>>("Game.UObject.Map").TryGetValue(objectid, out uObject))
+        if (Hwdtech.IoC.Resolve<IDictionary<int, IUObject>>("Game.UObject.Map").TryGetValue(objectid, out uObject))
         {
             return uObject;
         }
