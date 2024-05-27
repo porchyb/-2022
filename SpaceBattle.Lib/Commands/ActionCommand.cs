@@ -1,7 +1,7 @@
 namespace SpaceBattle.Lib;
 
 
-public class ActionCommand : ICommand
+public class ActionCommand : Hwdtech.ICommand
 {
     private Action action;
 
