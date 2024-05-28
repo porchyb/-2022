@@ -1,5 +1,5 @@
 ﻿using Hwdtech;
-namespace SpaceBattle
+namespace SpaceBattle.Lib
 {
     public class QueueReceiverAdapter : IReceiver
     {

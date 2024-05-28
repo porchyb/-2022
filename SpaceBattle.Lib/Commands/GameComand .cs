@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Hwdtech;
-namespace SpaceBattle.Lib.Commands
+namespace SpaceBattle.Lib
 {
     public class GameComand : Hwdtech.ICommand
     {
