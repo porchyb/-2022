@@ -38,7 +38,7 @@ namespace SpaceBattle.Lib.Test
                 {1, gameScope}
             };
             Mock<IStrategy> mockGameScopesStrategy = new();
-            mockGameScopesStrategy.Setup(a=>a.UseStrategy(It.IsAny<object[]>())).Returns(gameScopes);
+            mockGameScopesStrategy.Setup(a => a.UseStrategy(It.IsAny<object[]>())).Returns(gameScopes);
             IoC.Resolve<ICommand>("IoC.Add", "IoC.GameScopes", mockGameScopesStrategy.Object).Execute();
 
             new GameCommand(1).Execute();
@@ -70,7 +70,7 @@ namespace SpaceBattle.Lib.Test
             mockGameScopesStrategy.Setup(a => a.UseStrategy(It.IsAny<object[]>())).Returns(gameScopes);
             IoC.Resolve<ICommand>("IoC.Add", "IoC.GameScopes", mockGameScopesStrategy.Object).Execute();
 
-            Assert.Throws<Exception>(()=>new GameCommand(1).Execute());
+            Assert.Throws<Exception>(() => new GameCommand(1).Execute());
         }
     }
 }

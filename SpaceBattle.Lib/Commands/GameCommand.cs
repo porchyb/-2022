@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace SpaceBattle.Lib.Commands
@@ -31,7 +31,7 @@ namespace SpaceBattle.Lib.Commands
                     {
                         cmd.Execute();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         IoC.Resolve<IStrategy>("Handler.Handle", cmd, e).UseStrategy();
                     }
