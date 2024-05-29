@@ -20,7 +20,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Hwdtech.Core" Version="1.0.0" />
     <PackageReference Include="Hwdtech.IoC" Version="1.0.0" />
+    <PackageReference Include="Hwdtech.Ioc.ScopeBasedIoCImplementation" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6" />
     <PackageReference Include="Microsoft.Build" Version="17.4.0" />
     <PackageReference Include="Microsoft.CodeCoverage" Version="17.4.0" />
